@@ -28,7 +28,10 @@ SOURCES += \
         mainwindow.cpp
 
 HEADERS += \
-        mainwindow.h
-
+        mainwindow.h \
+    structrue.h \
+    constant.h \
+    tool.h
+QT += serialport
 FORMS += \
         mainwindow.ui

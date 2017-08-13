@@ -2,6 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QtSerialPort/QtSerialPort>
+#include <QDebug>
+#include "constant.h"
+#include "structrue.h"
 
 namespace Ui {
 class MainWindow;
@@ -15,8 +19,42 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+private slots:
+    void on_serialPort_currentIndexChanged(int index);
+
+    void on_BaudRate_currentIndexChanged(int index);
+
+    void on_dataBits_currentIndexChanged(int index);
+
+    void on_checkBits_currentIndexChanged(int index);
+
+    void on_stopBits_currentIndexChanged(int index);
+
+    void on_autoSave_stateChanged(int arg1);
+
+    void on_autoSaveTime_currentIndexChanged(int index);
+
+    void on_autoSend_stateChanged(int arg1);
+
+    void on_autoSendTime_currentIndexChanged(int index);
+
+    void on_receiveDataFormat_currentIndexChanged(int index);
+
+    void on_sendDataFormat_currentIndexChanged(int index);
+
+    void on_clearCountBtn_clicked();
+
+    void on_stopDisplayBtn_clicked();
+
+    void on_clearDataBtn_clicked();
+
+    void on_saveDataBtn_clicked();
+
+    void on_openBtn_clicked();
+
 private:
     Ui::MainWindow *ui;
+    QSerialPort *m_SerialPort;
 };
 
 #endif // MAINWINDOW_H
