@@ -35,3 +35,6 @@ HEADERS += \
 QT += serialport
 FORMS += \
         mainwindow.ui
+
+RESOURCES += \
+    rec.qrc
