@@ -12,7 +12,20 @@ MainWindow::MainWindow(QWidget *parent) :
     }
 
     m_SerialPort = new QSerialPort();
+    m_Status = FIND_FRAME_START;
+    m_ReceiveCount = 0;
+    m_SendCount = 0;
     setWindowTitle(tr("串口助手"));
+
+    //发送数据
+    m_AutoSendTimer = new QTimer(this);
+    m_AutoSendTimer->setInterval(5000);
+    connect(m_AutoSendTimer, SIGNAL(timeout()), this, SLOT(sendPortData()));
+
+    //保存数据
+    m_AutoSaveTimer = new QTimer(this);
+    m_AutoSaveTimer->setInterval(5000);
+    connect(m_AutoSaveTimer, SIGNAL(timeout()), this, SLOT(savePortData()));
 }
 
 MainWindow::~MainWindow()
@@ -30,7 +43,7 @@ void MainWindow::on_openBtn_clicked()
                /*******************************设置串口的默认参数**************************************/
                m_SerialPort->setBaudRate(ui->BaudRate->currentText().toInt()); //波特率
                 //数据位
-               switch (m_DataFormat) {
+               switch (m_ReceiveDataFormat) {
                case 0:
                    m_SerialPort->setDataBits(QSerialPort::Data8);
                    break;
@@ -89,6 +102,7 @@ void MainWindow::on_openBtn_clicked()
        else                                          //如果串口处于打开的状态，则关闭
        {
            m_SerialPort->close();
+           disconnect(m_SerialPort, SIGNAL(readyRead()), this, SLOT(receivePortData()));
            ui->openBtn->setText(tr("打开串口"));
        }
 }
@@ -115,28 +129,41 @@ void MainWindow::handleReceivedata(QByteArray temp)
         ui->receiveText->setTextColor(Qt::lightGray);
         ui->receiveText->insertPlainText(tr("接收: "));
         ui->receiveText->setTextColor(Qt::black);
-        switch(m_DataFormat)
-        {
+        switch(m_ReceiveDataFormat){
         case Utf_8:
         {
             QString tempDataNormal = QString(temp);
             ui->receiveText->insertPlainText(tempDataNormal);
+            break;
         }
-            break;
         case AscII:
+        {
+            QString tempDataAscII = QString(temp).toLatin1();
+            ui->receiveText->insertPlainText(tempDataAscII);
             break;
+        }
         case Binary:
+        {
+            QString tempDataHex = tool::ByteArrayToHexStr(temp);
+            QString tempDataBinary = tool::StrHexToStrBin(tempDataHex);
+            ui->receiveText->insertPlainText(tempDataBinary);
             break;
+        }
         case Octal:
             break;
         case Decimal:
+        {
+            QString tempDataHex = tool::ByteArrayToHexStr(temp);
+            int Decimal = tool::StrHexToDecimal(tempDataHex);
+            ui->receiveText->insertPlainText(QString::number(Decimal));
             break;
+        }
         case Hexadecimal:
         {
             QString tempDataHex = tool::ByteArrayToHexStr(temp);
             ui->receiveText->insertPlainText(tempDataHex);
-        }
             break;
+        }
         }
         m_ReceiveCount = m_ReceiveCount + temp.size();
         ui->label_8->setText(QString("接收:%1 字节").arg(m_ReceiveCount));
@@ -144,68 +171,68 @@ void MainWindow::handleReceivedata(QByteArray temp)
         ui->receiveText->moveCursor(QTextCursor::End);
     }
 }
-
+//解析数据的函数，有待进一步改善
 void MainWindow::decodeData(QByteArray temp)
 {
-//    int len = temp.length();
-//    for(int i=0;i<len;i++)
-//   {
-//        uint8_t byte=temp[i];
-//        if(my_status == FINDING_55)
-//                   {
-//                       // 看是否在找帧开始符，0x55。
-//                       if(byte == 0xAA)
-//                           my_status = NEED_AA;
-//                   }
-//                   else if(my_status == NEED_AA)
-//                   {
-//                       // 找到0x55后，下一个必须是0xAA，否则在次寻找0x55。
-//                       if(byte == 0xAA)
-//                           my_status = NEED_NUM;
-//                       else
-//                           my_status = FINDING_55;
-//                   }
-//                   else if(my_status == NEED_NUM)
-//                   {
-//                       // 找到0x55后，下一个必须是0xAA，否则在次寻找0x55。
-//                       if(byte == 0x01)
-//                         {
-//                           my_dataNum = byte;
-//                           my_status = NEED_LENGTH;
-//                         }
-//                       else
-//                           my_status = FINDING_55;
-//                   }
+    int len = temp.length();
+    for(int i=0;i<len;i++)
+   {
+        uint8_t byte=temp[i];
+        if(m_Status == FIND_FRAME_START && byte == FRAME_START)// 看是否在找帧开始符，0x55。
+        {
+            m_Status = NEED_FRAME_HEAD;
+            continue;
+        }
+        else if(m_Status == NEED_FRAME_HEAD)
+        {
+                       // 找到0x55后，下一个必须是0xAA，否则在次寻找0x55。
+                       if(byte == FRAME_HEAD)
+                           m_Status = NEED_FRAME_NUM;
+                       else
+                           m_Status = FIND_FRAME_START;
+                       continue;
+        }
+                   else if(m_Status == NEED_FRAME_NUM)
+                   {
+                       // 找到0x55后，下一个必须是0xAA，否则在次寻找0x55。
+                       if(byte <= FRAME_MAX_NUMBER)
+                         {
+                           m_DataNum = byte;
+                           m_Status = NEED_FRAME_LENGTH;
+                         }
+                       else
+                           m_Status = FIND_FRAME_START;
+                       continue;
+                   }
+                   else if(m_Status == NEED_FRAME_LENGTH)
+                   {
+                           if(byte < FRAME_MAX_LENGTH)
+                           {
+                              m_DataLength = byte;
+                              m_Status = DATA_START;
 
-//                   else if(my_status == NEED_LENGTH)
-//                   {
-//                           if(byte < DATA_LEN_MAX)
-//                           {
-//                              my_dataLength = byte;
-//                              my_status = DATA_START;
+                           }
+                            else
+                            { // 帧错误，寻找下一帧。
+                                m_Status = FIND_FRAME_START;
+                             }
+                           continue;
+                   }
+                   // [0,DATA_LEN_MAX-1]就表示正在读数据。
+                   else if(m_Status < FRAME_MAX_LENGTH)
+                   {
+                       m_Buff[m_Status] = byte;
+                       m_Status ++;
 
-//                           }
-//                            else
-//                            {
-//                // 帧错误，寻找下一帧。
-//                                my_status = FINDING_55;
-//                             }
-//                   }
-//                   // [0,DATA_LEN_MAX-1]就表示正在读数据。
-//                   else if(my_status < DATA_LEN_MAX)
-//                   {
-//                       my_buff[my_status] = byte;
-//                       my_status ++;
-
-//                       // 判断读完没有。
-//                       if(my_status == my_dataLength+1)
-//                       {
-//                           //帧接收完了，处理。
-//                          int sum =0;
-//                        for(int j=0;j<my_dataLength;j++)
-//                            sum += my_buff[j];
-//                        if(sum==my_buff[my_dataLength])
-//                        {
+                       // 判断读完没有。
+                       if(m_Status == m_DataLength + 1)
+                       {
+                           //帧接收完了，处理。
+                          int sum =0;
+                        for(int j=0;j<m_DataLength;j++)
+                            sum += m_Buff[j];
+                        if(sum==m_Buff[m_DataLength])//最后一位数据，是和校验
+                        {
 //                           value1 = (float)((my_buff[0]<<8)+my_buff[1])/100;
 //                           value2 = (float)((my_buff[2]<<8)+my_buff[3])/100;
 //                           value3 = (float)((my_buff[4]<<8)+my_buff[5])/100;
@@ -214,16 +241,84 @@ void MainWindow::decodeData(QByteArray temp)
 //                           ui->checkBox_4->setText(QString("通道 1：%1").arg(value1));
 //                           ui->checkBox_5->setText(QString("通道 2：%1").arg(value2));
 //                           ui->checkBox_6->setText(QString("通道 3：%1").arg(value3));
-//                        }   // 寻找下一帧。
-//                           my_status = FINDING_55;
-//                       }
-//                   }
-//    }
+                        }   // 寻找下一帧。
+                           m_Status = FIND_FRAME_START;
+                       }
+                   }
+    }
 }
 /*************************************发送串口数据*********************************************/
 void MainWindow::sendPortData()
 {
-    m_SerialPort->write(ui->sendText->text().toLatin1()); //以ASCII码形式将数据写入串口
+    QString str = ui->sendText->text();
+    if (str == "")
+    {
+        ui->sendText->setFocus();
+        return;
+    }//发送数据为空
+    if (!m_SerialPort->isOpen())
+    {
+        return;
+    }//串口没有打开
+    QByteArray outData = str.toLatin1();
+    int size = outData.size();
+    switch(m_SendDataFormat){
+    case Utf_8:
+    {
+        size = outData.size();
+        m_SerialPort->write(outData);
+        break;
+    }
+    case AscII:
+    {
+        QByteArray tempDataAscII = QString(outData).toLatin1();
+        size = tempDataAscII.size();
+        m_SerialPort->write(tempDataAscII);
+        break;
+    }
+    case Binary:
+    case Octal:
+        break;
+    case Decimal:
+        break;
+    case Hexadecimal:
+    {
+        outData = tool::HexStrToByteArray(str);
+        size = outData.size();
+        m_SerialPort->write(outData);
+        break;
+    }
+    }
+
+    ui->receiveText->append(QString("发送:%1").arg(str));
+    m_SendCount = m_SendCount + size;
+    ui->label_7->setText(QString("发送:%1 字节").arg(m_SendCount));
+
+//    if (IsAutoClear)
+//    {
+//        //ui->SendTextEdit->setCurrentIndex(-1);
+//       // ui->SendTextEdit->setFocus();
+//        ui->sendText->clear();
+//    }
+}
+
+/*************************************保存串口数据*********************************************/
+void MainWindow::savePortData()
+{
+    QString tempData = ui->receiveText->toPlainText();
+    if (tempData=="")
+    {
+        return;
+    }//如果没有内容则不保存
+    QDateTime now = QDateTime::currentDateTime();
+    QString name = now.toString("yyyyMMddHHmmss");
+    QString fileName = name+".txt";
+
+    QFile file(fileName);
+    file.open(QFile::WriteOnly | QIODevice::Text);
+    QTextStream out(&file);
+    out<<tempData;
+    file.close();
 }
 /*************************************串口设置  start*********************************************/
 void MainWindow::on_serialPort_currentIndexChanged(int index)
@@ -254,7 +349,16 @@ void MainWindow::on_stopBits_currentIndexChanged(int index)
 /**********************************串口数据管理  start**********************************************/
 void MainWindow::on_autoSave_stateChanged(int arg1)
 {
-
+    bool IsAutoSave = (arg1 == 0 ? false : true);
+    if (IsAutoSave)
+    {
+        this->m_AutoSaveTimer->start();
+    }
+    else
+    {
+        this->m_AutoSaveTimer->stop();
+    }
+    ui->autoSaveTime->setEnabled(IsAutoSave);
 }
 
 void MainWindow::on_autoSaveTime_currentIndexChanged(int index)
@@ -264,7 +368,16 @@ void MainWindow::on_autoSaveTime_currentIndexChanged(int index)
 
 void MainWindow::on_autoSend_stateChanged(int arg1)
 {
-
+    bool IsAutoSend = (arg1 == 0 ? false : true);
+    if (IsAutoSend)
+    {
+        this->m_AutoSendTimer->start();
+    }
+    else
+    {
+        this->m_AutoSendTimer->stop();
+    }
+    ui->autoSendTime->setEnabled(IsAutoSend);
 }
 
 void MainWindow::on_autoSendTime_currentIndexChanged(int index)
@@ -274,12 +387,12 @@ void MainWindow::on_autoSendTime_currentIndexChanged(int index)
 
 void MainWindow::on_receiveDataFormat_currentIndexChanged(int index)
 {
-    m_DataFormat = index;
+    m_ReceiveDataFormat = index;
 }
 
 void MainWindow::on_sendDataFormat_currentIndexChanged(int index)
 {
-
+    m_SendDataFormat = index;
 }
 void MainWindow::on_clearCountBtn_clicked()
 {
@@ -307,7 +420,7 @@ void MainWindow::on_clearDataBtn_clicked()
 
 void MainWindow::on_saveDataBtn_clicked()
 {
-
+    savePortData();
 }
 /**********************************串口数据管理  end************************************************/
 

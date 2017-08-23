@@ -2,16 +2,19 @@
 #define CONSTANT_H
 #define             DATA_BUFFER                         0                                        //数据缓冲区
 
-//数据帧控制 字节头 +
-//static const int FINDING_55   = 100;
-//static const int NEED_AA      = 101;
-//static const int NEED_LENGTH  = 102;
-//static const int NEED_NUM  = 103;
+//数据帧控制 字节头
+#define            FIND_FRAME_START            100
+#define            NEED_FRAME_HEAD            101
+#define            NEED_FRAME_LENGTH            102
+#define            NEED_FRAME_NUM              103
 
-//static const int DATA_LEN_MAX = 32;
-//static const int DATA_NUM_MAX = 0x05;
-//static const int DATA_START   = 0;
-//static const int DATA_END   = 105;
+#define            FRAME_START            0x55
+#define            FRAME_HEAD             0xAA
+
+#define            FRAME_MAX_LENGTH            32
+#define            FRAME_MAX_NUMBER            0X05
+#define            DATA_START            0
+#define            DATA_END            105
 
 #define             DELAY_100MS                        100
 

@@ -45,8 +45,19 @@ private slots:
 private:
     Ui::MainWindow *ui;
     QSerialPort *m_SerialPort;
-    int m_DataFormat;
+    QTimer *m_AutoSendTimer;//定时发送串口数据
+    QTimer *m_AutoSaveTimer;//定时保存串口数据
+    QTimer *myPlotTimer;
+
+
+    int m_ReceiveDataFormat;
+    int m_SendDataFormat;
     int m_ReceiveCount;
+    int m_SendCount;
+    int m_Status;
+    int m_DataNum;
+    int m_DataLength;
+    char m_Buff[100];
 
     bool IsShow;//是否显示数据
     bool IsDebug;//是否启用调试,接收到数据后模拟发送数据
@@ -56,6 +67,7 @@ private:
     void handleReceivedata(QByteArray temp);
     void decodeData(QByteArray temp);
     void sendPortData();
+    void savePortData();
 };
 
 #endif // MAINWINDOW_H
