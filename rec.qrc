@@ -1,5 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file alias="zh_CN">resource/qt_zh_CN.qm</file>
+        <file alias="zoomin">resource/zoomin.png</file>
+        <file alias="zoomout">resource/zoomout.png</file>
     </qresource>
 </RCC>

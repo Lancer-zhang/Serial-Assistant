@@ -15,6 +15,17 @@ MainWindow::MainWindow(QWidget *parent) :
     m_Status = FIND_FRAME_START;
     m_ReceiveCount = 0;
     m_SendCount = 0;
+    m_Plotter = new Plotter;
+    ui->displayArea->setBackgroundRole(QPalette::Shadow);   //displayArea对象的背景色设为Dark，能拉动的框
+    ui->displayArea->setWidget(m_Plotter);     //将画布添加到scrollArea中
+    ui->displayArea->widget()->setMinimumSize(400,300); //scrollArea初始化大小设为800*600
+    PlotSettings settings;
+    settings.minX = 0.0;
+    settings.maxX = 100.0;
+    settings.minY = -180.0;
+    settings.maxY = 180.0;
+    m_Plotter->setPlotSettings(settings);
+
     setWindowTitle(tr("串口助手"));
 
     //发送数据
@@ -26,6 +37,11 @@ MainWindow::MainWindow(QWidget *parent) :
     m_AutoSaveTimer = new QTimer(this);
     m_AutoSaveTimer->setInterval(5000);
     connect(m_AutoSaveTimer, SIGNAL(timeout()), this, SLOT(savePortData()));
+
+    //200ms更新曲线
+    m_PlotUpdateTimer=new QTimer(this);
+    m_PlotUpdateTimer->setInterval(200);
+    connect(m_PlotUpdateTimer,SIGNAL(timeout()),this,SLOT(showPlot()));
 }
 
 MainWindow::~MainWindow()
@@ -264,32 +280,19 @@ void MainWindow::sendPortData()
     int size = outData.size();
     switch(m_SendDataFormat){
     case Utf_8:
-    {
-        size = outData.size();
-        m_SerialPort->write(outData);
-        break;
-    }
     case AscII:
-    {
-        QByteArray tempDataAscII = QString(outData).toLatin1();
-        size = tempDataAscII.size();
-        m_SerialPort->write(tempDataAscII);
-        break;
-    }
     case Binary:
     case Octal:
-        break;
     case Decimal:
         break;
     case Hexadecimal:
     {
         outData = tool::HexStrToByteArray(str);
-        size = outData.size();
-        m_SerialPort->write(outData);
         break;
     }
     }
-
+    size = outData.size();
+    m_SerialPort->write(outData);
     ui->receiveText->append(QString("发送:%1").arg(str));
     m_SendCount = m_SendCount + size;
     ui->label_7->setText(QString("发送:%1 字节").arg(m_SendCount));
@@ -363,7 +366,7 @@ void MainWindow::on_autoSave_stateChanged(int arg1)
 
 void MainWindow::on_autoSaveTime_currentIndexChanged(int index)
 {
-
+     m_AutoSaveTimer->setInterval(ui->autoSaveTime->currentText().toInt() * 1000);
 }
 
 void MainWindow::on_autoSend_stateChanged(int arg1)
@@ -382,7 +385,7 @@ void MainWindow::on_autoSend_stateChanged(int arg1)
 
 void MainWindow::on_autoSendTime_currentIndexChanged(int index)
 {
-
+    m_AutoSendTimer->setInterval(ui->autoSendTime->currentText().toInt() * 1000);
 }
 
 void MainWindow::on_receiveDataFormat_currentIndexChanged(int index)
@@ -396,7 +399,10 @@ void MainWindow::on_sendDataFormat_currentIndexChanged(int index)
 }
 void MainWindow::on_clearCountBtn_clicked()
 {
-
+    m_SendCount = 0;
+    m_ReceiveCount = 0;
+    ui->label_7->setText("发送:0 字节");
+    ui->label_8->setText("接收:0 字节");
 }
 
 void MainWindow::on_stopDisplayBtn_clicked()
@@ -415,7 +421,7 @@ void MainWindow::on_stopDisplayBtn_clicked()
 
 void MainWindow::on_clearDataBtn_clicked()
 {
-
+    ui->receiveText->clear();
 }
 
 void MainWindow::on_saveDataBtn_clicked()
@@ -423,4 +429,19 @@ void MainWindow::on_saveDataBtn_clicked()
     savePortData();
 }
 /**********************************串口数据管理  end************************************************/
+void MainWindow::showPlot()
+{
+    QVector<QPointF> points0;
+    QVector<QPointF> points1;
+    QVector<QPointF> points2;
+    for(int x=0;x<=100;x++)
+    {
+        points0.append(QPointF(x, uint(qrand()) % 100));
+        points1.append(QPointF(x, uint(qrand()) % 100));
+        points2.append(QPointF(x, uint(qrand()) % 100));
+    }
+    m_Plotter->setCurveData(0, points0);
+    m_Plotter->setCurveData(1, points1);
+    m_Plotter->setCurveData(2, points2);
 
+}

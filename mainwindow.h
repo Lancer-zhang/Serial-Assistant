@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QtSerialPort/QtSerialPort>
 #include <QDebug>
+#include "plotter.h"
 #include "constant.h"
 #include "structrue.h"
 #include "tool.h"
@@ -47,8 +48,9 @@ private:
     QSerialPort *m_SerialPort;
     QTimer *m_AutoSendTimer;//定时发送串口数据
     QTimer *m_AutoSaveTimer;//定时保存串口数据
-    QTimer *myPlotTimer;
+    QTimer *m_PlotUpdateTimer;
 
+    Plotter *m_Plotter;
 
     int m_ReceiveDataFormat;
     int m_SendDataFormat;
@@ -66,8 +68,11 @@ private:
 
     void handleReceivedata(QByteArray temp);
     void decodeData(QByteArray temp);
+
+private slots:
     void sendPortData();
     void savePortData();
+    void showPlot();
 };
 
 #endif // MAINWINDOW_H

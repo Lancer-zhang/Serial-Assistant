@@ -25,16 +25,20 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    plotter.cpp
 
 HEADERS += \
         mainwindow.h \
     structrue.h \
     constant.h \
-    tool.h
+    tool.h \
+    plotter.h
 QT += serialport
 FORMS += \
         mainwindow.ui
 
 RESOURCES += \
     rec.qrc
+
+DISTFILES +=
