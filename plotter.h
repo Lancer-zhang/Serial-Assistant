@@ -47,7 +47,7 @@ private:
     void drawGrid(QPainter *painter);
     void drawCurves(QPainter *painter);
 
-    enum { Margin = 22 };//为图形区域周围提供一些空间
+    enum { Margin = 25 };//为图形区域周围提供一些空间
 
     QToolButton *m_ZoomInButton;
     QToolButton *m_ZoomOutButton;

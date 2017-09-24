@@ -10,22 +10,23 @@ MainWindow::MainWindow(QWidget *parent) :
     {
         ui->serialPort->addItem(info.portName());
     }
-
     m_SerialPort = new QSerialPort();
     m_Status = FIND_FRAME_START;
     m_ReceiveCount = 0;
     m_SendCount = 0;
     m_Plotter = new Plotter;
-    ui->displayArea->setBackgroundRole(QPalette::Shadow);   //displayArea对象的背景色设为Dark，能拉动的框
+    ui->displayArea->setBackgroundRole(QPalette::Dark);   //displayArea对象的背景色设为Dark，能拉动的框
     ui->displayArea->setWidget(m_Plotter);     //将画布添加到scrollArea中
-    ui->displayArea->widget()->setMinimumSize(400,300); //scrollArea初始化大小设为800*600
+    ui->displayArea->widget()->setMinimumSize(500,300); //scrollArea初始化大小设为800*600
     PlotSettings settings;
     settings.minX = 0.0;
     settings.maxX = 100.0;
-    settings.minY = -180.0;
-    settings.maxY = 180.0;
+    settings.minY = 0.0;
+    settings.maxY = 120.0;
     m_Plotter->setPlotSettings(settings);
-
+    IsShowCh1 = false;
+    IsShowCh2 = false;
+    IsShowCh3 = false;
     setWindowTitle(tr("串口助手"));
 
     //发送数据
@@ -429,6 +430,7 @@ void MainWindow::on_saveDataBtn_clicked()
     savePortData();
 }
 /**********************************串口数据管理  end************************************************/
+/**********************************曲线绘制设置  start************************************************/
 void MainWindow::showPlot()
 {
     QVector<QPointF> points0;
@@ -436,12 +438,60 @@ void MainWindow::showPlot()
     QVector<QPointF> points2;
     for(int x=0;x<=100;x++)
     {
-        points0.append(QPointF(x, uint(qrand()) % 100));
-        points1.append(QPointF(x, uint(qrand()) % 100));
-        points2.append(QPointF(x, uint(qrand()) % 100));
+        if(IsShowCh1)  {
+            points0.append(QPointF(x, uint(qrand()) % 120));
+        }
+        else  {
+            points0.append(QPointF(x, 0));
+        }
+        if(IsShowCh2)  {
+            points1.append(QPointF(x, uint(qrand()) % 120));
+        }
+        else  {
+            points1.append(QPointF(x, 0));
+        }
+        if(IsShowCh3)  {
+            points2.append(QPointF(x, uint(qrand()) % 120));
+        }
+        else  {
+            points2.append(QPointF(x, 0));
+        }
     }
     m_Plotter->setCurveData(0, points0);
     m_Plotter->setCurveData(1, points1);
     m_Plotter->setCurveData(2, points2);
+}
 
+void MainWindow::on_startShowBtn_clicked()
+{
+    if (ui->startShowBtn->text() == "停止绘制")
+    {
+        m_PlotUpdateTimer->stop();
+        ui->startShowBtn->setText("开始绘制");
+    }
+    else
+    {
+        m_PlotUpdateTimer->start();
+        ui->startShowBtn->setText("停止绘制");
+    }
+
+}
+
+void MainWindow::on_aisle1_stateChanged(int arg1)
+{
+    IsShowCh1=(arg1==0?false:true);
+}
+
+void MainWindow::on_aisle2_stateChanged(int arg1)
+{
+    IsShowCh2=(arg1==0?false:true);
+}
+
+void MainWindow::on_aisle3_stateChanged(int arg1)
+{
+    IsShowCh3=(arg1==0?false:true);
+}
+
+void MainWindow::on_aisle4_stateChanged(int arg1)
+{
 }

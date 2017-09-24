@@ -65,6 +65,10 @@ private:
     bool IsDebug;//是否启用调试,接收到数据后模拟发送数据
     bool IsAutoClear;//是否自动清空
     bool IsHex;
+// 是否显示曲线1,2,3
+    bool IsShowCh1;
+    bool IsShowCh2;
+    bool IsShowCh3;
 
     void handleReceivedata(QByteArray temp);
     void decodeData(QByteArray temp);
@@ -73,6 +77,11 @@ private slots:
     void sendPortData();
     void savePortData();
     void showPlot();
+    void on_startShowBtn_clicked();
+    void on_aisle1_stateChanged(int arg1);
+    void on_aisle2_stateChanged(int arg1);
+    void on_aisle3_stateChanged(int arg1);
+    void on_aisle4_stateChanged(int arg1);
 };
 
 #endif // MAINWINDOW_H
