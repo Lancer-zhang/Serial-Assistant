@@ -43,6 +43,8 @@ MainWindow::MainWindow(QWidget *parent) :
     m_PlotUpdateTimer=new QTimer(this);
     m_PlotUpdateTimer->setInterval(200);
     connect(m_PlotUpdateTimer,SIGNAL(timeout()),this,SLOT(showPlot()));
+
+        flappybridd  = new FlappyBrid();
 }
 
 MainWindow::~MainWindow()
@@ -495,3 +497,21 @@ void MainWindow::on_aisle3_stateChanged(int arg1)
 void MainWindow::on_aisle4_stateChanged(int arg1)
 {
 }
+
+/**********************************快乐小鸟  start************************************************/
+void MainWindow::on_flappyBridBtn_clicked()
+{
+     if(m_SerialPort->isOpen())
+     {
+         m_SerialPort->close();
+         disconnect(m_SerialPort, SIGNAL(readyRead()), this, SLOT(receivePortData()));
+         ui->openBtn->setText(tr("打开串口"));
+     }
+     if (ui->startShowBtn->text() == "停止绘制")
+     {
+         m_PlotUpdateTimer->stop();
+         ui->startShowBtn->setText("开始绘制");
+     }
+     flappybridd->show();
+}
+/**********************************快乐小鸟 end************************************************/

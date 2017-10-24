@@ -8,6 +8,7 @@
 #include "constant.h"
 #include "structrue.h"
 #include "tool.h"
+#include "flappybrid/flappybrid.h"
 
 namespace Ui {
 class MainWindow;
@@ -51,6 +52,7 @@ private:
     QTimer *m_PlotUpdateTimer;
 
     Plotter *m_Plotter;
+    FlappyBrid *flappybridd;
 
     int m_ReceiveDataFormat;
     int m_SendDataFormat;
@@ -82,6 +84,7 @@ private slots:
     void on_aisle2_stateChanged(int arg1);
     void on_aisle3_stateChanged(int arg1);
     void on_aisle4_stateChanged(int arg1);
+    void on_flappyBridBtn_clicked();
 };
 
 #endif // MAINWINDOW_H

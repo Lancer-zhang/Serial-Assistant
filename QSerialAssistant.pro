@@ -26,14 +26,26 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    plotter.cpp
+    plotter.cpp \
+    flappybrid/flappybrid.cpp \
+    flappybrid/gameelement.cpp \
+    flappybrid/background.cpp \
+    flappybrid/ground.cpp \
+    flappybrid/brid.cpp \
+    flappybrid/title.cpp
 
 HEADERS += \
         mainwindow.h \
     structrue.h \
     constant.h \
     tool.h \
-    plotter.h
+    plotter.h \
+    flappybrid/flappybrid.h \
+    flappybrid/gameelement.h \
+    flappybrid/background.h \
+    flappybrid/ground.h \
+    flappybrid/brid.h \
+    flappybrid/title.h
 QT += serialport
 FORMS += \
         mainwindow.ui
