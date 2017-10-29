@@ -15,8 +15,8 @@ void Ground::init()
 
 void Ground::logic()
 {
-//    if( !this->enabledLogic )
-//        return;
+    if( !this->enabledLogic )
+        return;
 
     this->positionX -= this->speedX;
     if(positionX < -this->bindRect.width() )
@@ -33,7 +33,6 @@ void Ground::resize(int _width, int _height)
 
 void Ground::draw(QPainter *painter)
 {
-    qDebug()<<"bindRect = "<<bindRect;
     painter->drawPixmap(this->positionX,
                         this->bindRect.topLeft().y(),
                         this->bindRect.width(),this->bindRect.height(),

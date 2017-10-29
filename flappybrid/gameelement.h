@@ -6,6 +6,7 @@
 #include <QPainter>
 #include <QPixmap>
 #include <QDebug>
+#include "constant.h"
 
 class GameElement : public QObject
 {

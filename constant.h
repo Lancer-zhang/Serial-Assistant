@@ -28,4 +28,18 @@ enum DATA_FORMAT
     Decimal,
     Hexadecimal,
 };
+//快乐小鸟游戏状态的枚举类型
+enum GameStatus{GAMETITLE,
+                GAMEREADY,
+                GAMEPLAY,
+                GAMEOVER};
+//快乐小鸟奖牌获取的类型
+enum Medal{PLATINICMEDAL = 12,
+           GOLDMEDAL = 13,
+           SILVERMEDAL = 14,
+           COPPERMEDAL = 15,
+          NONE = 0};
+//快乐小鸟是否通过水管
+enum PipeType{above=0,
+              following=1};
 #endif // CONSTANT_H

@@ -32,7 +32,11 @@ SOURCES += \
     flappybrid/background.cpp \
     flappybrid/ground.cpp \
     flappybrid/brid.cpp \
-    flappybrid/title.cpp
+    flappybrid/title.cpp \
+    flappybrid/readyboard.cpp \
+    flappybrid/scoreboard.cpp \
+    flappybrid/overboard.cpp \
+    flappybrid/pipe.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -45,7 +49,11 @@ HEADERS += \
     flappybrid/background.h \
     flappybrid/ground.h \
     flappybrid/brid.h \
-    flappybrid/title.h
+    flappybrid/title.h \
+    flappybrid/readyboard.h \
+    flappybrid/scoreboard.h \
+    flappybrid/overboard.h \
+    flappybrid/pipe.h
 QT += serialport
 FORMS += \
         mainwindow.ui
