@@ -15,6 +15,7 @@ int main(int argc, char *argv[])
     translator.load(":/zh_CN");
     a.installTranslator(&translator);
     MainWindow w;
+    w.setFixedSize(800, 720);
     w.show();
 
     return a.exec();

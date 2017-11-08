@@ -6,823 +6,943 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1000</width>
-    <height>600</height>
+    <width>800</width>
+    <height>700</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QGroupBox" name="groupBox">
+   <widget class="QStackedWidget" name="stackedWidget">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>0</y>
+      <width>600</width>
+      <height>700</height>
+     </rect>
+    </property>
+    <property name="currentIndex">
+     <number>3</number>
+    </property>
+    <widget class="QWidget" name="mainPage">
+     <widget class="QLabel" name="label_6">
+      <property name="geometry">
+       <rect>
+        <x>90</x>
+        <y>150</y>
+        <width>351</width>
+        <height>101</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>AR PL UKai TW MBE</family>
+        <pointsize>32</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>QT 杂货铺</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_10">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>550</y>
+        <width>161</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>制作人：Lancer_张</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_11">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>480</y>
+        <width>161</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>版本：V0.0.1</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="serialportPage">
+     <widget class="QPushButton" name="sendBtn">
+      <property name="geometry">
+       <rect>
+        <x>460</x>
+        <y>380</y>
+        <width>111</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>发送</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="sendText">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>380</y>
+        <width>421</width>
+        <height>41</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QGroupBox" name="groupBox">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>20</y>
+        <width>571</width>
+        <height>351</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>接收数据：</string>
+      </property>
+      <widget class="QTextEdit" name="receiveText">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>30</y>
+         <width>551</width>
+         <height>321</height>
+        </rect>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="groupBox_4">
+      <property name="geometry">
+       <rect>
+        <x>210</x>
+        <y>430</y>
+        <width>261</width>
+        <height>221</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>数据管理</string>
+      </property>
+      <widget class="QCheckBox" name="autoSave">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>20</y>
+         <width>141</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>启用自动保存数据</string>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="autoSaveTime">
+       <property name="geometry">
+        <rect>
+         <x>160</x>
+         <y>20</y>
+         <width>91</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <item>
+        <property name="text">
+         <string>5秒</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>10秒</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>15秒</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>30秒</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>60秒</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QCheckBox" name="autoSend">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>60</y>
+         <width>141</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="acceptDrops">
+        <bool>false</bool>
+       </property>
+       <property name="text">
+        <string>启用自动发送数据</string>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="checked">
+        <bool>false</bool>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="autoSendTime">
+       <property name="geometry">
+        <rect>
+         <x>160</x>
+         <y>60</y>
+         <width>91</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <item>
+        <property name="text">
+         <string>5秒</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>10秒</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>15秒</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>30秒</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>60秒</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QComboBox" name="receiveDataFormat">
+       <property name="geometry">
+        <rect>
+         <x>160</x>
+         <y>100</y>
+         <width>91</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <item>
+        <property name="text">
+         <string>Utf-8</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>ASCII</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>二进制</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>八进制</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>十进制</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>十六进制</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QLabel" name="receiveData">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>100</y>
+         <width>141</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>接收数据格式：</string>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="sendDataFormat">
+       <property name="geometry">
+        <rect>
+         <x>160</x>
+         <y>140</y>
+         <width>91</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <item>
+        <property name="text">
+         <string>十进制</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>二进制</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>八进制</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>十六进制</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QLabel" name="label_9">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>140</y>
+         <width>141</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>发送数据格式：</string>
+       </property>
+      </widget>
+      <zorder>autoSave</zorder>
+      <zorder>autoSaveTime</zorder>
+      <zorder>autoSend</zorder>
+      <zorder>autoSendTime</zorder>
+      <zorder>label_4</zorder>
+      <zorder>receiveDataFormat</zorder>
+      <zorder>receiveData</zorder>
+      <zorder>sendDataFormat</zorder>
+      <zorder>label_9</zorder>
+     </widget>
+     <widget class="QGroupBox" name="groupBox_3">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>430</y>
+        <width>191</width>
+        <height>221</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>串口设置</string>
+      </property>
+      <widget class="QLabel" name="label">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>20</y>
+         <width>71</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>串口号</string>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="serialPort">
+       <property name="geometry">
+        <rect>
+         <x>80</x>
+         <y>20</y>
+         <width>101</width>
+         <height>31</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="BaudRate">
+       <property name="geometry">
+        <rect>
+         <x>80</x>
+         <y>60</y>
+         <width>101</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <item>
+        <property name="text">
+         <string>9600</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>115200</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QLabel" name="label_2">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>60</y>
+         <width>71</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>波特率</string>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="dataBits">
+       <property name="geometry">
+        <rect>
+         <x>80</x>
+         <y>100</y>
+         <width>101</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <item>
+        <property name="text">
+         <string>8</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>7</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>6</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>5</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QLabel" name="label_3">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>100</y>
+         <width>71</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>数据位</string>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="checkBits">
+       <property name="geometry">
+        <rect>
+         <x>80</x>
+         <y>140</y>
+         <width>101</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <item>
+        <property name="text">
+         <string>无</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>奇</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>偶</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QLabel" name="label_5">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>140</y>
+         <width>71</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>校验位</string>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="stopBits">
+       <property name="geometry">
+        <rect>
+         <x>80</x>
+         <y>180</y>
+         <width>101</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <item>
+        <property name="text">
+         <string>1</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>1.5</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>2</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QLabel" name="label_4">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>180</y>
+         <width>71</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>停止位</string>
+       </property>
+      </widget>
+      <zorder>label</zorder>
+      <zorder>serialPort</zorder>
+      <zorder>BaudRate</zorder>
+      <zorder>label_2</zorder>
+      <zorder>dataBits</zorder>
+      <zorder>label_3</zorder>
+      <zorder>checkBits</zorder>
+      <zorder>label_5</zorder>
+      <zorder>stopBits</zorder>
+      <zorder>label_4</zorder>
+      <zorder>autoSaveTime</zorder>
+      <zorder>label_9</zorder>
+      <zorder>sendDataFormat</zorder>
+      <zorder>autoSave</zorder>
+      <zorder>autoSendTime</zorder>
+      <zorder>receiveData</zorder>
+      <zorder>receiveDataFormat</zorder>
+      <zorder>autoSend</zorder>
+     </widget>
+     <widget class="QLabel" name="label_7">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>660</y>
+        <width>171</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>发送：0字节</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_8">
+      <property name="geometry">
+       <rect>
+        <x>210</x>
+        <y>660</y>
+        <width>171</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>接收：0字节</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="openBtn">
+      <property name="geometry">
+       <rect>
+        <x>490</x>
+        <y>610</y>
+        <width>81</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>打开串口</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="clearCountBtn">
+      <property name="geometry">
+       <rect>
+        <x>490</x>
+        <y>450</y>
+        <width>81</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>计数清零</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="stopDisplayBtn">
+      <property name="geometry">
+       <rect>
+        <x>490</x>
+        <y>490</y>
+        <width>81</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>停止显示</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="clearDataBtn">
+      <property name="geometry">
+       <rect>
+        <x>490</x>
+        <y>530</y>
+        <width>81</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>清空数据</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="saveDataBtn">
+      <property name="geometry">
+       <rect>
+        <x>490</x>
+        <y>570</y>
+        <width>81</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>保存数据</string>
+      </property>
+     </widget>
+     <zorder>sendBtn</zorder>
+     <zorder>sendText</zorder>
+     <zorder>groupBox</zorder>
+     <zorder>groupBox_4</zorder>
+     <zorder>groupBox_3</zorder>
+     <zorder>label_7</zorder>
+     <zorder>label_8</zorder>
+     <zorder>saveDataBtn</zorder>
+     <zorder>stopDisplayBtn</zorder>
+     <zorder>clearDataBtn</zorder>
+     <zorder>clearCountBtn</zorder>
+     <zorder>openBtn</zorder>
+     <zorder>openBtn</zorder>
+     <zorder>clearCountBtn</zorder>
+     <zorder>stopDisplayBtn</zorder>
+     <zorder>clearDataBtn</zorder>
+     <zorder>saveDataBtn</zorder>
+    </widget>
+    <widget class="QWidget" name="plotterPage">
+     <widget class="QGroupBox" name="groupBox_7">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>20</y>
+        <width>571</width>
+        <height>391</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>示波器界面</string>
+      </property>
+      <widget class="QScrollArea" name="displayArea">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>30</y>
+         <width>551</width>
+         <height>351</height>
+        </rect>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::ClickFocus</enum>
+       </property>
+       <property name="verticalScrollBarPolicy">
+        <enum>Qt::ScrollBarAlwaysOff</enum>
+       </property>
+       <property name="horizontalScrollBarPolicy">
+        <enum>Qt::ScrollBarAlwaysOff</enum>
+       </property>
+       <property name="widgetResizable">
+        <bool>true</bool>
+       </property>
+       <widget class="QWidget" name="scrollAreaWidgetContents">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>549</width>
+          <height>349</height>
+         </rect>
+        </property>
+       </widget>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="groupBox_8">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>440</y>
+        <width>231</width>
+        <height>251</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>数据采集</string>
+      </property>
+      <widget class="QCheckBox" name="aisle1">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>30</y>
+         <width>181</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>通道 1：</string>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="aisle2">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>70</y>
+         <width>181</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>通道 2：</string>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="aisle3">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>110</y>
+         <width>181</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>通道 3：</string>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="aisle4">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>150</y>
+         <width>181</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>通道 4：</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="startShowBtn">
+       <property name="geometry">
+        <rect>
+         <x>80</x>
+         <y>210</y>
+         <width>101</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>开始绘制</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="groupBox_9">
+      <property name="geometry">
+       <rect>
+        <x>250</x>
+        <y>460</y>
+        <width>321</width>
+        <height>171</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>高级应用</string>
+      </property>
+      <widget class="QPushButton" name="displayAttitudeBtn">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>40</y>
+         <width>81</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>姿态显示</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="openCVBtn">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>80</y>
+         <width>81</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>拍照摄像</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="gpsBtn">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>120</y>
+         <width>81</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>GPS地图</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton_9">
+       <property name="geometry">
+        <rect>
+         <x>120</x>
+         <y>40</y>
+         <width>81</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>桌面截图</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton_13">
+       <property name="geometry">
+        <rect>
+         <x>120</x>
+         <y>80</y>
+         <width>81</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>二维码助手</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton_14">
+       <property name="geometry">
+        <rect>
+         <x>120</x>
+         <y>120</y>
+         <width>81</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>————</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="flappyBridBtn">
+       <property name="geometry">
+        <rect>
+         <x>220</x>
+         <y>40</y>
+         <width>81</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>快乐小鸟</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton_16">
+       <property name="geometry">
+        <rect>
+         <x>220</x>
+         <y>80</y>
+         <width>81</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>————</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton_17">
+       <property name="geometry">
+        <rect>
+         <x>220</x>
+         <y>120</y>
+         <width>81</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>————</string>
+       </property>
+      </widget>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="flappybirdPage">
+     <widget class="QWidget" name="horizontalLayoutWidget_2">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>0</y>
+        <width>401</width>
+        <height>701</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_2"/>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget">
     <property name="geometry">
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>461</width>
-      <height>300</height>
+      <width>201</width>
+      <height>731</height>
      </rect>
     </property>
-    <property name="title">
-     <string>接收数据：</string>
-    </property>
-    <widget class="QTextEdit" name="receiveText">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>30</y>
-       <width>450</width>
-       <height>271</height>
-      </rect>
-     </property>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayout"/>
    </widget>
-   <widget class="QGroupBox" name="groupBox_3">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>350</y>
-      <width>131</width>
-      <height>171</height>
-     </rect>
-    </property>
-    <property name="title">
-     <string>串口设置</string>
-    </property>
-    <widget class="QLabel" name="label">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>20</y>
-       <width>51</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>串口号</string>
-     </property>
-    </widget>
-    <widget class="QComboBox" name="serialPort">
-     <property name="geometry">
-      <rect>
-       <x>60</x>
-       <y>20</y>
-       <width>69</width>
-       <height>22</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QComboBox" name="BaudRate">
-     <property name="geometry">
-      <rect>
-       <x>60</x>
-       <y>50</y>
-       <width>69</width>
-       <height>22</height>
-      </rect>
-     </property>
-     <item>
-      <property name="text">
-       <string>9600</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>115200</string>
-      </property>
-     </item>
-    </widget>
-    <widget class="QLabel" name="label_2">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>50</y>
-       <width>51</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>波特率</string>
-     </property>
-    </widget>
-    <widget class="QComboBox" name="dataBits">
-     <property name="geometry">
-      <rect>
-       <x>60</x>
-       <y>80</y>
-       <width>69</width>
-       <height>22</height>
-      </rect>
-     </property>
-     <item>
-      <property name="text">
-       <string>8</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>7</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>6</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>5</string>
-      </property>
-     </item>
-    </widget>
-    <widget class="QLabel" name="label_3">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>80</y>
-       <width>51</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>数据位</string>
-     </property>
-    </widget>
-    <widget class="QComboBox" name="checkBits">
-     <property name="geometry">
-      <rect>
-       <x>60</x>
-       <y>110</y>
-       <width>69</width>
-       <height>22</height>
-      </rect>
-     </property>
-     <item>
-      <property name="text">
-       <string>无</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>奇</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>偶</string>
-      </property>
-     </item>
-    </widget>
-    <widget class="QLabel" name="label_5">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>110</y>
-       <width>51</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>校验位</string>
-     </property>
-    </widget>
-    <widget class="QComboBox" name="stopBits">
-     <property name="geometry">
-      <rect>
-       <x>60</x>
-       <y>140</y>
-       <width>69</width>
-       <height>22</height>
-      </rect>
-     </property>
-     <item>
-      <property name="text">
-       <string>1</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>1.5</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>2</string>
-      </property>
-     </item>
-    </widget>
-    <widget class="QLabel" name="label_4">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>140</y>
-       <width>51</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>停止位</string>
-     </property>
-    </widget>
-   </widget>
-   <widget class="QGroupBox" name="groupBox_4">
-    <property name="geometry">
-     <rect>
-      <x>140</x>
-      <y>350</y>
-      <width>321</width>
-      <height>171</height>
-     </rect>
-    </property>
-    <property name="title">
-     <string>数据管理</string>
-    </property>
-    <widget class="QCheckBox" name="autoSave">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>20</y>
-       <width>141</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>启用自动保存数据</string>
-     </property>
-    </widget>
-    <widget class="QComboBox" name="autoSaveTime">
-     <property name="geometry">
-      <rect>
-       <x>160</x>
-       <y>20</y>
-       <width>61</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <item>
-      <property name="text">
-       <string>5秒</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>10秒</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>15秒</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>30秒</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>60秒</string>
-      </property>
-     </item>
-    </widget>
-    <widget class="QCheckBox" name="autoSend">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>50</y>
-       <width>141</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="acceptDrops">
-      <bool>false</bool>
-     </property>
-     <property name="text">
-      <string>启用自动发送数据</string>
-     </property>
-     <property name="checkable">
-      <bool>true</bool>
-     </property>
-     <property name="checked">
-      <bool>false</bool>
-     </property>
-    </widget>
-    <widget class="QComboBox" name="autoSendTime">
-     <property name="geometry">
-      <rect>
-       <x>160</x>
-       <y>50</y>
-       <width>61</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <item>
-      <property name="text">
-       <string>5秒</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>10秒</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>15秒</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>30秒</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>60秒</string>
-      </property>
-     </item>
-    </widget>
-    <widget class="QLabel" name="receiveData">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>80</y>
-       <width>121</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>接收数据格式：</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_9">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>110</y>
-       <width>121</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>发送数据格式：</string>
-     </property>
-    </widget>
-    <widget class="QComboBox" name="receiveDataFormat">
-     <property name="geometry">
-      <rect>
-       <x>130</x>
-       <y>80</y>
-       <width>91</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <item>
-      <property name="text">
-       <string>Utf-8</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>ASCII</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>二进制</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>八进制</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>十进制</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>十六进制</string>
-      </property>
-     </item>
-    </widget>
-    <widget class="QComboBox" name="sendDataFormat">
-     <property name="geometry">
-      <rect>
-       <x>130</x>
-       <y>110</y>
-       <width>91</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <item>
-      <property name="text">
-       <string>十进制</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>二进制</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>八进制</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>十六进制</string>
-      </property>
-     </item>
-    </widget>
-    <widget class="QPushButton" name="saveDataBtn">
-     <property name="geometry">
-      <rect>
-       <x>250</x>
-       <y>110</y>
-       <width>71</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>保存数据</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="clearDataBtn">
-     <property name="geometry">
-      <rect>
-       <x>250</x>
-       <y>80</y>
-       <width>71</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>清空数据</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="stopDisplayBtn">
-     <property name="geometry">
-      <rect>
-       <x>250</x>
-       <y>50</y>
-       <width>71</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>停止显示</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="clearCountBtn">
-     <property name="geometry">
-      <rect>
-       <x>250</x>
-       <y>20</y>
-       <width>71</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>计数清零</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="openBtn">
-     <property name="geometry">
-      <rect>
-       <x>180</x>
-       <y>140</y>
-       <width>141</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>打开串口</string>
-     </property>
-    </widget>
-   </widget>
-   <widget class="QLineEdit" name="sendText">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>310</y>
-      <width>341</width>
-      <height>31</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="sendBtn">
-    <property name="geometry">
-     <rect>
-      <x>360</x>
-      <y>310</y>
-      <width>101</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>发送</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_7">
-    <property name="geometry">
-     <rect>
-      <x>290</x>
-      <y>520</y>
-      <width>171</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>发送：0字节</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_8">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>520</y>
-      <width>171</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>接收：0字节</string>
-    </property>
-   </widget>
-   <widget class="QGroupBox" name="groupBox_9">
-    <property name="geometry">
-     <rect>
-      <x>680</x>
-      <y>350</y>
-      <width>321</width>
-      <height>171</height>
-     </rect>
-    </property>
-    <property name="title">
-     <string>高级应用</string>
-    </property>
-    <widget class="QPushButton" name="displayAttitudeBtn">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>40</y>
-       <width>81</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>姿态显示</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="openCVBtn">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>80</y>
-       <width>81</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>拍照摄像</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="gpsBtn">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>120</y>
-       <width>81</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>GPS地图</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_9">
-     <property name="geometry">
-      <rect>
-       <x>120</x>
-       <y>40</y>
-       <width>81</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>桌面截图</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_13">
-     <property name="geometry">
-      <rect>
-       <x>120</x>
-       <y>80</y>
-       <width>81</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>二维码助手</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_14">
-     <property name="geometry">
-      <rect>
-       <x>120</x>
-       <y>120</y>
-       <width>81</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>————</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="flappyBridBtn">
-     <property name="geometry">
-      <rect>
-       <x>220</x>
-       <y>40</y>
-       <width>81</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>快乐小鸟</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_16">
-     <property name="geometry">
-      <rect>
-       <x>220</x>
-       <y>80</y>
-       <width>81</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>————</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_17">
-     <property name="geometry">
-      <rect>
-       <x>220</x>
-       <y>120</y>
-       <width>81</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>————</string>
-     </property>
-    </widget>
-   </widget>
-   <widget class="QGroupBox" name="groupBox_8">
-    <property name="geometry">
-     <rect>
-      <x>480</x>
-      <y>350</y>
-      <width>181</width>
-      <height>171</height>
-     </rect>
-    </property>
-    <property name="title">
-     <string>数据采集</string>
-    </property>
-    <widget class="QCheckBox" name="aisle1">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>20</y>
-       <width>131</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>通道 1：</string>
-     </property>
-    </widget>
-    <widget class="QCheckBox" name="aisle2">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>50</y>
-       <width>131</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>通道 2：</string>
-     </property>
-    </widget>
-    <widget class="QCheckBox" name="aisle3">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>80</y>
-       <width>131</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>通道 3：</string>
-     </property>
-    </widget>
-    <widget class="QCheckBox" name="aisle4">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>110</y>
-       <width>131</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>通道 4：</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="startShowBtn">
-     <property name="geometry">
-      <rect>
-       <x>100</x>
-       <y>140</y>
-       <width>75</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>开始绘制</string>
-     </property>
-    </widget>
-   </widget>
-   <widget class="QGroupBox" name="groupBox_7">
-    <property name="geometry">
-     <rect>
-      <x>470</x>
-      <y>0</y>
-      <width>531</width>
-      <height>351</height>
-     </rect>
-    </property>
-    <property name="title">
-     <string>示波器界面</string>
-    </property>
-    <widget class="QScrollArea" name="displayArea">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>30</y>
-       <width>511</width>
-       <height>311</height>
-      </rect>
-     </property>
-     <property name="focusPolicy">
-      <enum>Qt::ClickFocus</enum>
-     </property>
-     <property name="verticalScrollBarPolicy">
-      <enum>Qt::ScrollBarAlwaysOff</enum>
-     </property>
-     <property name="horizontalScrollBarPolicy">
-      <enum>Qt::ScrollBarAlwaysOff</enum>
-     </property>
-     <property name="widgetResizable">
-      <bool>true</bool>
-     </property>
-     <widget class="QWidget" name="scrollAreaWidgetContents">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>509</width>
-        <height>309</height>
-       </rect>
-      </property>
-     </widget>
-    </widget>
-   </widget>
-  </widget>
-  <widget class="QStatusBar" name="statusBar"/>
-  <widget class="QMenuBar" name="menuBar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>1000</width>
-     <height>28</height>
-    </rect>
-   </property>
-   <widget class="QMenu" name="menuSerial_Assistant">
-    <property name="title">
-     <string>Serial Assistant</string>
-    </property>
-   </widget>
-   <addaction name="menuSerial_Assistant"/>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

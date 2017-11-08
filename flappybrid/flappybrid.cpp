@@ -48,7 +48,9 @@ this->resize(400,700);
     connect(this->overBoard,SIGNAL(buttonVisible(bool,bool,bool)),this,SLOT(setButtonVisible(bool,bool,bool)));
     this->gameTitleStatus();
 }
-
+FlappyBrid::~FlappyBrid()
+{
+}
 void FlappyBrid::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);

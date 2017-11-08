@@ -22,7 +22,7 @@ class FlappyBrid : public QWidget
     Q_OBJECT
 public:
     explicit FlappyBrid(QWidget *parent = 0);
-
+    ~FlappyBrid();
     void paintEvent(QPaintEvent *);
     void mousePressEvent(QMouseEvent *);
     void resizeEvent(QResizeEvent *);

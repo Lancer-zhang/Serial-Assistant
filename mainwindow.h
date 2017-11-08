@@ -9,6 +9,7 @@
 #include "structrue.h"
 #include "tool.h"
 #include "flappybrid/flappybrid.h"
+#include "qnavigationwidget.h"
 
 namespace Ui {
 class MainWindow;
@@ -46,6 +47,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    QNavigationWidget *m_NavigationWidget;
     QSerialPort *m_SerialPort;
     QTimer *m_AutoSendTimer;//定时发送串口数据
     QTimer *m_AutoSaveTimer;//定时保存串口数据
@@ -72,6 +74,9 @@ private:
     bool IsShowCh2;
     bool IsShowCh3;
 
+    void initSerialPortTool();
+    void initPlotterTool();
+    void initFlappyBird();
     void handleReceivedata(QByteArray temp);
     void decodeData(QByteArray temp);
 
@@ -85,6 +90,8 @@ private slots:
     void on_aisle3_stateChanged(int arg1);
     void on_aisle4_stateChanged(int arg1);
     void on_flappyBridBtn_clicked();
+
+    void changePage(int index);
 };
 
 #endif // MAINWINDOW_H

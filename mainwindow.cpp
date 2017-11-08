@@ -6,6 +6,48 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    m_NavigationWidget = new QNavigationWidget;
+    m_NavigationWidget->setRowHeight(60);
+    m_NavigationWidget->addItem(tr("首页"));
+    m_NavigationWidget->addItem(tr("串口工具"));
+    m_NavigationWidget->addItem(tr("绘制曲线"));
+    m_NavigationWidget->addItem(tr("快乐的小鸟"));
+    ui->horizontalLayout->addWidget(m_NavigationWidget);
+
+    connect(m_NavigationWidget, SIGNAL(currentItemChanged(int)), this ,SLOT(changePage(int)));
+
+    initSerialPortTool();
+    initPlotterTool();
+    initFlappyBird();
+    ui->stackedWidget->setCurrentIndex(0);
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+void MainWindow::changePage(int index)
+{
+    qDebug()<<index;
+    ui->stackedWidget->setCurrentIndex(index);
+    switch (index) {
+    case 1:
+
+        break;
+    case 2:
+
+        break;
+    case 3:
+
+        break;
+    default:
+        break;
+    }
+}
+void MainWindow::initSerialPortTool()
+{
     foreach (const QSerialPortInfo &info, QSerialPortInfo::availablePorts()) //获取可用的串口
     {
         ui->serialPort->addItem(info.portName());
@@ -14,6 +56,20 @@ MainWindow::MainWindow(QWidget *parent) :
     m_Status = FIND_FRAME_START;
     m_ReceiveCount = 0;
     m_SendCount = 0;
+
+    //发送数据
+    m_AutoSendTimer = new QTimer(this);
+    m_AutoSendTimer->setInterval(5000);
+    connect(m_AutoSendTimer, SIGNAL(timeout()), this, SLOT(sendPortData()));
+
+    //保存数据
+    m_AutoSaveTimer = new QTimer(this);
+    m_AutoSaveTimer->setInterval(5000);
+    connect(m_AutoSaveTimer, SIGNAL(timeout()), this, SLOT(savePortData()));
+}
+
+void MainWindow::initPlotterTool()
+{
     m_Plotter = new Plotter;
     ui->displayArea->setBackgroundRole(QPalette::Dark);   //displayArea对象的背景色设为Dark，能拉动的框
     ui->displayArea->setWidget(m_Plotter);     //将画布添加到scrollArea中
@@ -27,31 +83,20 @@ MainWindow::MainWindow(QWidget *parent) :
     IsShowCh1 = false;
     IsShowCh2 = false;
     IsShowCh3 = false;
-    setWindowTitle(tr("串口助手"));
-
-    //发送数据
-    m_AutoSendTimer = new QTimer(this);
-    m_AutoSendTimer->setInterval(5000);
-    connect(m_AutoSendTimer, SIGNAL(timeout()), this, SLOT(sendPortData()));
-
-    //保存数据
-    m_AutoSaveTimer = new QTimer(this);
-    m_AutoSaveTimer->setInterval(5000);
-    connect(m_AutoSaveTimer, SIGNAL(timeout()), this, SLOT(savePortData()));
 
     //200ms更新曲线
     m_PlotUpdateTimer=new QTimer(this);
     m_PlotUpdateTimer->setInterval(200);
     connect(m_PlotUpdateTimer,SIGNAL(timeout()),this,SLOT(showPlot()));
-
-        flappybridd  = new FlappyBrid();
 }
 
-MainWindow::~MainWindow()
+void MainWindow::initFlappyBird()
 {
-    delete ui;
+    flappybridd  = new FlappyBrid();
+    ui->horizontalLayout_2->addWidget(flappybridd);
 }
 /*************************************打开串口**************************************************/
+
 void MainWindow::on_openBtn_clicked()
 {
     m_SerialPort->setPortName(ui->serialPort->currentText());                                                             //获取要打开的串口
@@ -115,7 +160,7 @@ void MainWindow::on_openBtn_clicked()
            else
            {
                qDebug()<<m_SerialPort->errorString();
-               this->statusBar()->showMessage(m_SerialPort->errorString());
+               //this->statusBar()->showMessage(m_SerialPort->errorString());
            }
        }
        else                                          //如果串口处于打开的状态，则关闭
@@ -125,7 +170,6 @@ void MainWindow::on_openBtn_clicked()
            ui->openBtn->setText(tr("打开串口"));
        }
 }
-
 
 /*************************************读取串口数据*********************************************/
 void MainWindow::receivePortData()
