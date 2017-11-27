@@ -83,7 +83,9 @@ void QNavigationWidget::paintEvent(QPaintEvent *)
 void QNavigationWidget::mouseMoveEvent(QMouseEvent *e)
 {
     if (e->y() / rowHeight < listItems.count()) {
-        // qDebug() << e->y() / rowHeight;
+        currentIndex = e->y() / rowHeight;
+        emit currentItemChanged(currentIndex);
+        update();
     }
 }
 
@@ -91,9 +93,7 @@ void QNavigationWidget::mousePressEvent(QMouseEvent *e)
 {
     if (e->y() / rowHeight < listItems.count()) {
         currentIndex = e->y() / rowHeight;
-qDebug()<<currentIndex<<"111";
         emit currentItemChanged(currentIndex);
-
         update();
     }
 }

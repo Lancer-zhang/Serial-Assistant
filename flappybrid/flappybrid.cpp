@@ -54,6 +54,7 @@ FlappyBrid::~FlappyBrid()
 void FlappyBrid::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
+    qDebug()<<"paint flappy bird";
     this->background->logic();
     this->background->draw(&painter);
 

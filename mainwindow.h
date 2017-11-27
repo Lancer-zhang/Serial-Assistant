@@ -10,6 +10,7 @@
 #include "tool.h"
 #include "flappybrid/flappybrid.h"
 #include "qnavigationwidget.h"
+#include "screenshot/screenshot.h"
 
 namespace Ui {
 class MainWindow;
@@ -54,7 +55,9 @@ private:
     QTimer *m_PlotUpdateTimer;
 
     Plotter *m_Plotter;
-    FlappyBrid *flappybridd;
+    FlappyBrid *m_Flappybridd;
+
+    ScreenShot *m_ScreenShot;
 
     int m_ReceiveDataFormat;
     int m_SendDataFormat;
@@ -77,6 +80,7 @@ private:
     void initSerialPortTool();
     void initPlotterTool();
     void initFlappyBird();
+    void initScreenShot();
     void handleReceivedata(QByteArray temp);
     void decodeData(QByteArray temp);
 
@@ -89,7 +93,6 @@ private slots:
     void on_aisle2_stateChanged(int arg1);
     void on_aisle3_stateChanged(int arg1);
     void on_aisle4_stateChanged(int arg1);
-    void on_flappyBridBtn_clicked();
 
     void changePage(int index);
 };

@@ -12,7 +12,8 @@ MainWindow::MainWindow(QWidget *parent) :
     m_NavigationWidget->addItem(tr("首页"));
     m_NavigationWidget->addItem(tr("串口工具"));
     m_NavigationWidget->addItem(tr("绘制曲线"));
-    m_NavigationWidget->addItem(tr("快乐的小鸟"));
+    m_NavigationWidget->addItem(tr("小鸟飞呀！"));
+    m_NavigationWidget->addItem(tr("屏幕截图"));
     ui->horizontalLayout->addWidget(m_NavigationWidget);
 
     connect(m_NavigationWidget, SIGNAL(currentItemChanged(int)), this ,SLOT(changePage(int)));
@@ -20,7 +21,7 @@ MainWindow::MainWindow(QWidget *parent) :
     initSerialPortTool();
     initPlotterTool();
     initFlappyBird();
-    ui->stackedWidget->setCurrentIndex(0);
+    initScreenShot();
 }
 
 MainWindow::~MainWindow()
@@ -40,7 +41,19 @@ void MainWindow::changePage(int index)
 
         break;
     case 3:
-
+        if(m_SerialPort->isOpen())
+        {
+            m_SerialPort->close();
+            disconnect(m_SerialPort, SIGNAL(readyRead()), this, SLOT(receivePortData()));
+            ui->openBtn->setText(tr("打开串口"));
+        }
+        if (ui->startShowBtn->text() == tr("停止绘制"))
+        {
+            m_PlotUpdateTimer->stop();
+            ui->startShowBtn->setText(tr("开始绘制"));
+        }
+        break;
+    case 4:
         break;
     default:
         break;
@@ -92,8 +105,19 @@ void MainWindow::initPlotterTool()
 
 void MainWindow::initFlappyBird()
 {
-    flappybridd  = new FlappyBrid();
-    ui->horizontalLayout_2->addWidget(flappybridd);
+    m_Flappybridd  = new FlappyBrid();
+    ui->horizontalLayout_2->addWidget(m_Flappybridd);
+}
+
+void MainWindow::initScreenShot()
+{
+    m_ScreenShot = new ScreenShot();
+    ui->stackedWidget->setCurrentIndex(0);
+    QWidget *screenWidget = new QWidget(this);
+    QVBoxLayout *vLayout = new QVBoxLayout(this);
+    vLayout->addWidget(m_ScreenShot);
+    screenWidget->setLayout(vLayout);
+    ui->stackedWidget->insertWidget(4, screenWidget);
 }
 /*************************************打开串口**************************************************/
 
@@ -340,9 +364,9 @@ void MainWindow::sendPortData()
     }
     size = outData.size();
     m_SerialPort->write(outData);
-    ui->receiveText->append(QString("发送:%1").arg(str));
+    ui->receiveText->append(tr("发送:%1").arg(str));
     m_SendCount = m_SendCount + size;
-    ui->label_7->setText(QString("发送:%1 字节").arg(m_SendCount));
+    ui->label_7->setText(tr("发送:%1 字节").arg(m_SendCount));
 
 //    if (IsAutoClear)
 //    {
@@ -448,21 +472,21 @@ void MainWindow::on_clearCountBtn_clicked()
 {
     m_SendCount = 0;
     m_ReceiveCount = 0;
-    ui->label_7->setText("发送:0 字节");
-    ui->label_8->setText("接收:0 字节");
+    ui->label_7->setText(tr("发送:0 字节"));
+    ui->label_8->setText(tr("接收:0 字节"));
 }
 
 void MainWindow::on_stopDisplayBtn_clicked()
 {
-    if (ui->stopDisplayBtn->text() == "停止显示")
+    if (ui->stopDisplayBtn->text() == tr("停止显示"))
     {
         IsShow = false;
-        ui->stopDisplayBtn->setText("开始显示");
+        ui->stopDisplayBtn->setText(tr("开始显示"));
     }
     else
     {
         IsShow = true;
-        ui->stopDisplayBtn->setText("停止显示");
+        ui->stopDisplayBtn->setText(tr("停止显示"));
     }
 }
 
@@ -510,15 +534,15 @@ void MainWindow::showPlot()
 
 void MainWindow::on_startShowBtn_clicked()
 {
-    if (ui->startShowBtn->text() == "停止绘制")
+    if (ui->startShowBtn->text() == tr("停止绘制"))
     {
         m_PlotUpdateTimer->stop();
-        ui->startShowBtn->setText("开始绘制");
+        ui->startShowBtn->setText(tr("开始绘制"));
     }
     else
     {
         m_PlotUpdateTimer->start();
-        ui->startShowBtn->setText("停止绘制");
+        ui->startShowBtn->setText(tr("停止绘制"));
     }
 
 }
@@ -543,19 +567,5 @@ void MainWindow::on_aisle4_stateChanged(int arg1)
 }
 
 /**********************************快乐小鸟  start************************************************/
-void MainWindow::on_flappyBridBtn_clicked()
-{
-     if(m_SerialPort->isOpen())
-     {
-         m_SerialPort->close();
-         disconnect(m_SerialPort, SIGNAL(readyRead()), this, SLOT(receivePortData()));
-         ui->openBtn->setText(tr("打开串口"));
-     }
-     if (ui->startShowBtn->text() == "停止绘制")
-     {
-         m_PlotUpdateTimer->stop();
-         ui->startShowBtn->setText("开始绘制");
-     }
-     flappybridd->show();
-}
+
 /**********************************快乐小鸟 end************************************************/
