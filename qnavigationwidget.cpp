@@ -84,7 +84,7 @@ void QNavigationWidget::mouseMoveEvent(QMouseEvent *e)
 {
     if (e->y() / rowHeight < listItems.count()) {
         currentIndex = e->y() / rowHeight;
-        emit currentItemChanged(currentIndex);
+     //   emit currentItemChanged(currentIndex);
         update();
     }
 }

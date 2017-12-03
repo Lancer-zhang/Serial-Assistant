@@ -42,4 +42,11 @@ enum Medal{PLATINICMEDAL = 12,
 //快乐小鸟是否通过水管
 enum PipeType{above=0,
               following=1};
+
+//截图绘图状态
+enum DrawStatus {
+    waitDraw=0,
+    drawing,
+    drawed,
+};
 #endif // CONSTANT_H

@@ -11,6 +11,12 @@
 #include <QVBoxLayout>
 #include <QMouseEvent>
 #include <QDebug>
+#include <QScreen>
+#include <QGuiApplication>
+#include <QWindow>
+#include <QApplication>
+#include <QDesktopWidget>
+#include "screencanvas.h"
 
 class ScreenShot : public QWidget
 {
@@ -29,12 +35,17 @@ private:
     QPushButton *SaveButton;
     QPushButton *ReadButton;
 
+    ScreenCanvas *m_ScreenCanvas;
+    bool isHide;
+
 private slots:
     void newScreenShot();
     void newScreenVedio();
     void onSaveClicked();
     void onReadClicked();
     void onStateChanged(int);
+
+    void getShotScreenPixmap(QPixmap pixmap);
 };
 
 #endif // SCREENSHOT_H

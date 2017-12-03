@@ -25,11 +25,35 @@ ScreenShot::ScreenShot()
     connect(this->SaveButton, SIGNAL(clicked()), this, SLOT(onSaveClicked()));
     connect(this->ReadButton, SIGNAL(clicked()), this, SLOT(onReadClicked()));
     connect(this->hideThisWindowCheckBox, SIGNAL(stateChanged(int)), this, SLOT(onStateChanged(int)));
+
 }
 
 void ScreenShot::newScreenShot()
 {
     qDebug()<<"截图";
+    QScreen *screen = QGuiApplication::primaryScreen();
+    if (const QWindow *window = windowHandle())
+        screen = window->screen();
+    if (!screen)
+        return;
+//    if(isHide)
+//    {
+//        this->hide();
+//    }
+    originalPixmap = screen->grabWindow(0);
+
+
+    m_ScreenCanvas = new ScreenCanvas();     //创建画布
+    m_ScreenCanvas->setBackgroundPixmap(originalPixmap);  //传递全屏背景图片
+    connect(m_ScreenCanvas, SIGNAL(shotScreenFinish(QPixmap)), this, SLOT(getShotScreenPixmap(QPixmap)));
+}
+
+void ScreenShot::getShotScreenPixmap(QPixmap pixmap)
+{
+    screenshotLabel->setPixmap(pixmap.scaled(screenshotLabel->size(),
+                                                     Qt::KeepAspectRatio,
+                                                     Qt::SmoothTransformation));
+
 }
 
 void ScreenShot::newScreenVedio()
@@ -50,4 +74,5 @@ void ScreenShot::onReadClicked()
 void ScreenShot::onStateChanged(int state)
 {
     qDebug()<<"隐藏"<<state;
+    isHide = (state == 0 ? false : true);
 }

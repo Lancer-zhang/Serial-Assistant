@@ -38,7 +38,8 @@ SOURCES += \
     flappybrid/overboard.cpp \
     flappybrid/pipe.cpp \
     qnavigationwidget.cpp \
-    screenshot/screenshot.cpp
+    screenshot/screenshot.cpp \
+    screenshot/screencanvas.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -57,7 +58,8 @@ HEADERS += \
     flappybrid/overboard.h \
     flappybrid/pipe.h \
     qnavigationwidget.h \
-    screenshot/screenshot.h
+    screenshot/screenshot.h \
+    screenshot/screencanvas.h
 QT += serialport
 FORMS += \
         mainwindow.ui
