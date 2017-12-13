@@ -11,7 +11,7 @@ ScreenCanvas::ScreenCanvas(QWidget *parent) : QWidget(parent)
         this->showFullScreen();
         setMouseTracking(true);                 //鼠标移动捕捉
 //        this->setCursor(Qt::CrossCursor);
-            clipboard = QApplication::clipboard();   //获取系统剪贴板指针
+        clipboard = QApplication::clipboard();   //获取系统剪贴板指针
         initCanvas();
 }
 
