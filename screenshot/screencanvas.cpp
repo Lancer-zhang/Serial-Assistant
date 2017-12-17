@@ -11,7 +11,7 @@ ScreenCanvas::ScreenCanvas(QWidget *parent) : QWidget(parent)
         this->showFullScreen();
         setMouseTracking(true);                 //鼠标移动捕捉
 //        this->setCursor(Qt::CrossCursor);
-        clipboard = QApplication::clipboard();   //获取系统剪贴板指针
+
         initCanvas();
 }
 
@@ -89,16 +89,17 @@ void ScreenCanvas::mousePressEvent(QMouseEvent *event)
         else if(m_Flag == DrawStatus::drawed)
         {
             m_FinishPixmap = shotScreen(m_ShotArea);
-            clipboard->setPixmap(m_FinishPixmap);
             this->hide();
-           emit shotScreenFinish(m_FinishPixmap);
+            emit shotScreenFinish(m_FinishPixmap);
+            this->close();
         }
     }
     else if( event->button() == Qt::RightButton)
     {
         if(m_Flag == DrawStatus::waitDraw)
         {
-            this->hide();
+            qDebug()<<"bujietule";
+            this->close();
         }
 //        else if(m_Flag == DrawStatus::drawed)
 //        {

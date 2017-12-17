@@ -14,7 +14,6 @@
 #include <QPointF>
 #include <QRectF>
 #include "constant.h"
-#include <QClipboard>
 
 class ScreenCanvas : public QWidget
 {
@@ -35,7 +34,7 @@ private:
     QPixmap m_FullPixmap;
     QPixmap m_FinishPixmap;
     QRectF m_ShotArea;
-    QClipboard * clipboard;
+
 
     void initCanvas();
     QRectF getShotArea(QPointF p1, QPointF p2);

@@ -95,6 +95,9 @@ private slots:
     void on_aisle4_stateChanged(int arg1);
 
     void changePage(int index);
+
+    void hideApplication();
+    void showApplication();
 };
 
 #endif // MAINWINDOW_H

@@ -17,6 +17,11 @@
 #include <QApplication>
 #include <QDesktopWidget>
 #include "screencanvas.h"
+#include <QTime>
+#include <QClipboard>
+#include <QFileDialog>
+#include <QFile>
+#include <QBuffer>
 
 class ScreenShot : public QWidget
 {
@@ -37,6 +42,7 @@ private:
 
     ScreenCanvas *m_ScreenCanvas;
     bool isHide;
+    QClipboard * m_Clipboard;
 
 private slots:
     void newScreenShot();
@@ -46,6 +52,10 @@ private slots:
     void onStateChanged(int);
 
     void getShotScreenPixmap(QPixmap pixmap);
+
+signals:
+    void hideApplication();
+    void showApplication();
 };
 
 #endif // SCREENSHOT_H

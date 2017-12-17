@@ -118,6 +118,19 @@ void MainWindow::initScreenShot()
     vLayout->addWidget(m_ScreenShot);
     screenWidget->setLayout(vLayout);
     ui->stackedWidget->insertWidget(4, screenWidget);
+
+    connect(m_ScreenShot, SIGNAL(hideApplication()), this, SLOT(hideApplication()));
+    connect(m_ScreenShot, SIGNAL(showApplication()), this, SLOT(showApplication()));
+}
+
+void MainWindow::hideApplication()
+{
+    this->hide();
+}
+void MainWindow::showApplication()
+{
+    qDebug()<<"show application";
+    this->show();
 }
 /*************************************打开串口**************************************************/
 
@@ -382,8 +395,10 @@ void MainWindow::savePortData()
     QString tempData = ui->receiveText->toPlainText();
     if (tempData=="")
     {
-        return;
+       // return;
+        tempData =QString("hahahahhahhahaha");
     }//如果没有内容则不保存
+    qDebug()<<"save data"<<tempData;
     QDateTime now = QDateTime::currentDateTime();
     QString name = now.toString("yyyyMMddHHmmss");
     QString fileName = name+".txt";

@@ -19,7 +19,8 @@ ScreenShot::ScreenShot()
     hLayout->addWidget(ReadButton);
     vLayout->addLayout(hLayout);
     this->setLayout(vLayout);
-
+    isHide = false;
+    m_Clipboard = QApplication::clipboard();   //获取系统剪贴板指针
     connect(this->newScreenshotButton, SIGNAL(clicked()), this, SLOT(newScreenShot()));
     connect(this->newScreenVedioButton, SIGNAL(clicked()), this, SLOT(newScreenVedio()));
     connect(this->SaveButton, SIGNAL(clicked()), this, SLOT(onSaveClicked()));
@@ -31,15 +32,19 @@ ScreenShot::ScreenShot()
 void ScreenShot::newScreenShot()
 {
     qDebug()<<"截图";
+    if(isHide)
+    {
+        emit hideApplication();
+    }
+    QTime dieTime = QTime::currentTime().addMSecs(200);
+    while( QTime::currentTime() <dieTime )
+    QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
     QScreen *screen = QGuiApplication::primaryScreen();
     if (const QWindow *window = windowHandle())
         screen = window->screen();
     if (!screen)
         return;
-//    if(isHide)
-//    {
-//        this->hide();
-//    }
+
     originalPixmap = screen->grabWindow(0);
 
 
@@ -53,7 +58,12 @@ void ScreenShot::getShotScreenPixmap(QPixmap pixmap)
     screenshotLabel->setPixmap(pixmap.scaled(screenshotLabel->size(),
                                                      Qt::KeepAspectRatio,
                                                      Qt::SmoothTransformation));
+    if(isHide)
+    {
+        emit showApplication();
+    }
 
+    m_Clipboard->setPixmap(pixmap);
 }
 
 void ScreenShot::newScreenVedio()
@@ -64,11 +74,37 @@ void ScreenShot::newScreenVedio()
 void ScreenShot::onSaveClicked()
 {
     qDebug()<<"保存";
+    QDateTime now = QDateTime::currentDateTime();
+    QString name = now.toString("yyyyMMddHHmmss");
+    QString fileName = name+".png";
+    QPixmap pixmap = m_Clipboard->pixmap();
+    QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
+                                                    "/home/lancer",
+                                                  QFileDialog::ShowDirsOnly
+                                                     | QFileDialog::DontResolveSymlinks);
+    QDir d;
+    d.mkpath(dir);//可以不用，因为路径已经有了，就不用mk了
+    pixmap.save(dir+"/"+fileName); //plan 1
+//    QFile file(dir+"/"+fileName); //plan 2
+//    file.open(QFile::ReadWrite);
+//    QByteArray tempdata;
+//    QBuffer buffer(&tempdata);
+//    buffer.open(QIODevice::WriteOnly);
+//    pixmap.save(&buffer, "PNG");
+//    file.write(tempdata);
+//    file.close();
 }
 
 void ScreenShot::onReadClicked()
 {
     qDebug()<<"读取";
+    QString fileName = QFileDialog::getOpenFileName(this,tr("Open Image"),
+                                    "/home/lancer",tr("Image Files (*.png *.jpg *.bmp)"));
+    QPixmap pixmap(fileName);
+    screenshotLabel->setPixmap(pixmap.scaled(screenshotLabel->size(),
+                                                     Qt::KeepAspectRatio,
+                                                     Qt::SmoothTransformation));
+
 }
 
 void ScreenShot::onStateChanged(int state)
